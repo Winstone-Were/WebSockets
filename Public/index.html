@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/Assets/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="log-in" style="display: none;">
+    <span class="input-for-name">
+      <p> usr-id </p>
+      <input required type="text" id="usr-name">
+    </span>
+    <span class="input-for-password">
+      <p> password </p>
+      <input required type="text" name="" id="pwrd">
+    </span>
+    <button class="log-in-button">LOG IN</button>
+    <button id="to_sign-in">Sign Up</button>
+  </div>
+
+  <div class="sign-up" style="display: none;">
+    <span>
+      <p> usr-name </p>
+      <input required type="text" id="up-usr-name">
+    </span>
+    <span class="input-for-password">
+      <p> password </p>
+      <input required type="text" name="" id="up-pwrd">
+    </span>
+    <span>
+      <p> usr-id</p>
+      <input required type="text" name="" id="usr-id">
+    </span>
+    <button class="sign-up-button">Sign Up</button>
+    <button id="to_log-in"> Log In </button>
+  </div>
+
+  <!--<div class="create_group">
+    <input required type="text" name="" id="initiator_name">
+    <input required type="text" name="" id="group_name">
+    <button id="send_new_group">Create</button>
+  </div>
+
+  <div class="join_group">
+    <input required type="text" name="" id="user_name" value="user-name">
+    <button id="join_group">Join</button>
+  </div>-->
+
+  <div id="app">
+      <div class="groups">
+
+      </div>
+      <div class="chats">
+        <div class="messages">
+          
+        </div>
+        <div class="chat_form">
+            <textarea></textarea>
+            <button id="send_message">Send</button>
+        </div>
+      </div>
+  </div>
+  <script src="./script.js"></script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script src="/Assets//jquery.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <div class="join">
+      <input required type="text" name="" id="name">
+      <input required type="text" id="group">
+      <button id="join"> JOIN </button>
+    </div>
+    <div class="chats">
+        
+    </div>
+    <div class="input">
+      <input required type="text" name="" id="messagetext">
+      <button class="sendButton">Send</button>
+    </div>
+  </div> 
+  <script src="./script.js"></script>
+</body>-->
