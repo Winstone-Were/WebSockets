@@ -37,6 +37,10 @@ $(document).ready(function(){
         $(".log-in").fadeIn(); 
     });
 
+    $("#send_message").click(function (){
+
+    });
+
     $(".sign-up-button").click(function (e) { 
         var name = $("#up-usr-name").val();
         var pwrd = $("#up-pwrd").val();
@@ -45,18 +49,13 @@ $(document).ready(function(){
     });
 
     $("#send_message").click(function(){
-
+        var Text = $("textarea").val();
+        send("message",{name:Message_Name,group:Message_Group,Text});
     });
 
     
     socket.onopen = ()=>{
-        JoinButton.addEventListener("click",()=>{
-        let TempObj = {name:Name.value,group:Group.value};
-        send("first-connect",TempObj);
-        });
-        SendButton.addEventListener("click",()=>{
-            sendMessage(MessageText.value);
-        });
+        console.log("connection to server succeded");
     }
 
     function sendMessage(Text){
@@ -93,7 +92,7 @@ $(document).ready(function(){
         }
         if(CrudeMessage.type == "message"){
             console.log(CrudeMessage);
-        writeMessage(CrudeMessage.Text);
+            writeMessage(CrudeMessage.Text);
         }
         if(CrudeMessage.type == "acknowledge-connect"){
             let name = CrudeMessage.name;
@@ -125,14 +124,29 @@ $(document).ready(function(){
             send("get_groups",{name:Message_Name});
         }
         if(CrudeMessage.type == "active-groups"){
-            create_groupButtons(CrudeMessage.ActiveGroupMembers);
+            console.log(CrudeMessage.groups);
+            create_groupButtons(CrudeMessage.groups);
         }
     }
 
-
+    function writeMessage(txt){
+        var txt = $(".messages")
+    }
+    
     function create_groupButtons(obj){
-        for(let [key,value] in obj){
-            var btn = $('<button class="grp_button"></button>').text(String(key));
+        for(let name of obj){
+            var btn = document.createElement("button");
+            btn.innerText = String(name);
+            btn.addEventListener("click",()=>{
+                setActiveGroup(name);
+            })
+            //var btn = $('<button class="grp_button"></button>').text(String(name));
             $(".groups").append(btn);
         }
     }
+
+    function setActiveGroup(name) { 
+        Message_Group = name;
+        $("#send_message").removeAttr("disabled");
+        send("first-connect",{name:Message_Name,group:Message_Group});
+     }

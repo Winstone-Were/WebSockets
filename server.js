@@ -68,6 +68,7 @@ function HandleMessage(jsonObj,ws){
         DataBase.getUser(SenderName).then(data=>{
             if(data.password == password){
                 ws.send(JSON.stringify({type:"login-accept",data}));
+                add_to_Groups(SenderName,TempObj);
             }else{
                 ws.send(JSON.stringify({type:"err",err:"wrong-password"}))
             }
@@ -89,7 +90,7 @@ function HandleMessage(jsonObj,ws){
 
     if(MessageType == "get_groups"){
         console.log(ReceivedMessage);
-        ws.send(JSON.stringify({type:"active-groups",ActiveGroupMembers}));
+        ws.send(JSON.stringify({type:"active-groups",groups:Object.keys(ActiveGroupMembers)}));
     }
 }
 
@@ -147,3 +148,11 @@ function loadArrayUsers(groupName){
 server.listen('5000',()=>{ console.log('Listening on port 5000') });
 
 
+function add_to_Groups(usr_nm,usr_obj){
+    DataBase.getUser(usr_nm).then(data=>{
+        var arr = data.groups;
+        for(var group of arr){
+            ActiveGroupMembers[group].push(usr_obj);
+        }
+    });
+};

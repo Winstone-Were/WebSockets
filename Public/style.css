@@ -104,9 +104,14 @@ textarea{
     height: 600px;
     background-color:rgb(31, 77, 77);
     overflow-y: scroll;
-    
+    display:grid;
+    grid-gap: 5px; 
+    justify-items: stretch;
+    align-content: start;
 }
 
 .grp_button{
+    background-color: rgb(255, 0, 119);
     height: 40px;
+    outline: none;
 }
