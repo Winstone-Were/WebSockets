@@ -1,5 +1,5 @@
 {
-  "name": "Stoney-WebSockets",
+  "name": "stoney_websockets",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
