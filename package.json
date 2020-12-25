@@ -1,0 +1,27 @@
+{
+  "name": "Stoney-WebSockets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Winstone-Were/WebSockets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Winstone-Were/WebSockets/issues"
+  },
+  "homepage": "https://github.com/Winstone-Were/WebSockets#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "ws": "^7.4.1"
+  }
+}

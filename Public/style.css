@@ -1,117 +1,284 @@
 *{
+    box-sizing:border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    outline: none;
 }
 
-.join_group{
-    margin-top: 10px;
-    display: grid;
-    width: 90%;
+html,body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
-
-.join_group > input{
-    width: 40%;
-    margin: auto;
+body{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    background-color: #263238;
+    /*
+        background-image: url("../Assets/_background.jpg");
+        background-position: center;
+        background-size: cover;
+    */
 }
-
-.join_group > button {
-    width: 30%;
-    margin: auto;
-}
-
 span{
     margin: auto;
     width: 80%;
-    margin-top: 1px;
 }
-
-.log-in, .sign-up{
-    background-color: rgb(0, 0, 0);
-    height: 300px;
-    width: 300px;
-    display: grid;
-    align-items: center;
-    padding: 10px;
-    color:yellow;
-    margin: auto;
-    border-radius: 10px;
-}
-
-.sign-up{
-    height: 400px;
-}
-
-.log-in > button , .sign-up > button  {
-    text-emphasis: none;
-    background: none;
-    border: 1px solid yellow;
-    border-radius: 24px ;
-    width: 70%;
-    margin: auto;
-    height: 30px;
-    color: white;
-    outline: none;
-}
-
-#usr-name , #pwrd , #usr-id, #up-pwrd, #up-usr-name{
-    background: none;
-    border: 1px solid yellow;
-    padding: 4px;
-    text-align: center;
-    border-radius: 24px ;
-    width: 100%;
-    margin: auto;
-    color: white;
-    outline: none;
-} 
-
 button:active{
-    box-shadow:5px 5px 10px 10px yellow;
+    background-color: yellow;
+    font-weight:bolder;
+    color: black;
 }
 
-#app{
-
-    width: 800px;
-    height: 600px;
-    margin: auto;
-    background-color: rgb(30, 189, 189);
-    padding: 10px;
-    align-items: center;
-}
-
-.chats{
-    height: 600px;
-    width: 800px;
-    background-color:rgb(31, 77, 77);
-}
-
-.chat_form{
+/* Log In Elements */
+.log-in{
     display: flex;
-    width: 438px;
-    margin: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #FFEB3B;
+    height: 350px;
+    width: 300px;
+    color:black;
+    text-transform: capitalize;
+    border-radius: 10px;
+    border: 5px solid #607D8B;
+}
+.log-in > div{
+    width: 100%;
+}
+.log-in > div[inputs]{
+    border: 1px dashed red;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-textarea{
-    height: 44px;
-    width: 438px;
+.log-in > div[inputs]>img{
+    height: 45%;
+    margin: 3%;
 }
-.messages {
-    height: 550px;
+.log-in > div[inputs]>img:hover{
+    filter: invert(10%);
 }
-
-.groups{
-    float:left;
-    width: 250px;
-    height: 600px;
-    background-color:rgb(31, 77, 77);
-    overflow-y: scroll;
-    display:grid;
-    grid-gap: 5px; 
-    justify-items: stretch;
-    align-content: start;
+.log-in > div[inputs]>span{
+    text-align: center;
 }
-
-.grp_button{
-    background-color: rgb(255, 0, 119);
+.log-in > div[inputs]>span>label{
+    font-weight: bold;
+}
+.log-in > div[inputs]>span>input{
     height: 40px;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    border-bottom: 2px solid #00BCD4;
+    color: #00BCD4;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 100%;
+}
+.log-in > div[buttons]{
+    border: 2px solid;
+    height: 15%;
+}
+.log-in > div[buttons]{
+    display: flex;
+}
+.log-in > div[buttons] > button{
+    background: #000d14;
+    border: 1px solid #37474F;
+    width: 100%;
+    height: 100%;
+    color: #76e600;
+    font-weight: bolder;
+    font-size: 95%;
+}
+.log-in > div[buttons] > button:active{
+    color: #000d14;
+    background-color: #76e600;
+}
+
+/* Sign Up Elements */
+.sign-up{
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 550px;
+    width: 300px;
+    color:black;
+    text-transform: capitalize;
+    border-radius: 10px;
+    border: 5px solid #607D8B;
+}
+.sign-up>div[inputs]{
+    border: 1px dashed red;
+    background-color: #ffe500;
+    width: 100%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.sign-up>div[inputs]>img{
+    height: 45%;
+    margin: 5%;
+}
+.sign-up>div[inputs]>span{
+    text-align: center;
+    height: 15%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.sign-up>div[inputs]>span>label{
+    font-weight: bold;
+}
+.sign-up>div[inputs]>span>input{
+    width: 80%;
+    height: 60%;
+    text-align: center;
+    font-weight: bold;
+    background-color: black;
+    border: none;
+    border-bottom: 3px solid #00BCD4;
+    border-radius: 5px;
+    color: #00BCD4;
+    font-size: 110%;
+}
+.sign-up>div[buttons]{
+    background-color: black;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.sign-up>div[buttons]>button{
+    border: #007777 1px solid;
+    width: 50%;
+    background-color: black;
+    color: #81C784;
+    font-weight: bolder;
+    font-size: 100%;
+}
+.sign-up>div[buttons]>button:active{
+    background-color: #81C784;
+    color: #000;
+}
+ 
+
+/* Chat area */
+#app{
+    width: 1000px;
+    height: 800px;
+    background-color: #880E4F;
+    border: 2px #607D8B solid;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+#app > .groups{
+    width: 120px;
+    height: 100%;
+    overflow-y: scroll;
+    background-color:#008fab;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#app > .groups > .group{
+    font-weight: 500;
+    width: 58px;
+    text-transform: uppercase;
+    height: 58px;
+    border-radius: 50%;
+    border: 1px solid #009688;
+    background-color: black;
+    color: #009688;
     outline: none;
+}
+#app > .groups > .group:active{
+    background-color: white;
+    border: 5px solid #009688;
+}
+
+
+#app > .chats{
+    height: 100%;
+    width: 100%;
+    background-color:rgb(31 77 77);
+}
+#app > .chats > .messages {
+    height: 90%;
+    width: 100%;
+    overflow-y: scroll;
+    background-color: #b5d0d4;
+}
+#app > .chats > .messages > div.message{
+    padding: .97%;
+    border: 1px solid #020022;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    margin: 1%;
+}
+#app > .chats > .messages > div.message> p.sender{
+    text-transform: capitalize;
+    font-weight: bolder;
+    align-self: flex-start;
+    text-shadow: 0 0 1px #da00ff;
+    margin-right: 2%;
+}
+#app > .chats > .messages > div.message> p.sender.me{
+    text-shadow: 0 0 1px #15ff00;
+}
+#app > .chats > .messages > div.message> p.content{
+    /* Any markdown goes here */
+    font-weight: 300;
+    font-size: large;
+}
+#app > .chats > .chat_form{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5%;
+    border: 2px solid #00695C;
+}
+#app > .chats > .chat_form > textarea{
+    height: 50px;
+    width: 92%;
+    border-radius: 10px;
+    resize: none;
+    border: 3px solid #FF5722;
+    overflow: hidden;
+    padding: 9px;
+
+    font-size: medium;
+    color: black;
+    font-weight: bold;
+}
+#app > .chats > .chat_form > button{
+    width: 6.5%;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid #80DEEA;
+    background-color: #FF5722;
+}
+#app > .chats > .chat_form > button:active{
+    background-color: #4CAF50;
 }
