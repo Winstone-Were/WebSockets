@@ -1,12 +1,13 @@
-
 let socket = new WebSocket("ws://localhost:5000");
+let ChatArea = $(".messages");
+console.log(ChatArea);
 
 $(document).ready(function(){
     $("#app").fadeOut();
     $(".log-in").fadeIn();
 })
         let Message_Name;
-        let Message_Group;  
+        let Message_Group;
 
     $("#send_new_group").click(()=>{
         var group_name = $("#group_name").val();
@@ -21,11 +22,15 @@ $(document).ready(function(){
         console.log('workin');
     });
 
-    $(".log-in-button").click(function(){
+    function login(){
+        // Function called to login a user
         var name = $("#usr-name").val();
         var pwrd = $("#pwrd").val();
         send("log_in",{name,pwrd});
-    });
+    };
+
+    $(".log-in-button").click(login);
+    $("#pwrd").on('change', login);
 
     $("#to_sign-in").click(function (e) { 
         $(".log-in").fadeOut();
@@ -37,10 +42,6 @@ $(document).ready(function(){
         $(".log-in").fadeIn(); 
     });
 
-    $("#send_message").click(function (){
-
-    });
-
     $(".sign-up-button").click(function (e) { 
         var name = $("#up-usr-name").val();
         var pwrd = $("#up-pwrd").val();
@@ -50,29 +51,26 @@ $(document).ready(function(){
 
     $("#send_message").click(function(){
         var Text = $("textarea").val();
-        send("message",{name:Message_Name,group:Message_Group,Text});
+        $("textarea").val(""); // This clears the Textbox
+        if(!Text) return; // Ensures the user can't send empty messages
+
+        let message = { name: Message_Name, group :Message_Group,Text };
+        send("message", message);
+        addMessage("ME", Text);
     });
 
     
     socket.onopen = ()=>{
         console.log("connection to server succeded");
-    }
+    };
 
     function sendMessage(Text){
         console.log(Text);
         var MessageObj = {Text,Message_Name, group:Message_Group};
         send("message",MessageObj);
-    }
+    };
 
-    socket.onmessage = (ev)=>{
-        HandleMessage(JSON.parse(ev.data));
-    }
-
-    function writeMessage(text){
-        var MessageHolder = document.createElement("p");
-        MessageHolder.innerHTML = text;
-        ChatArea.appendChild(MessageHolder);
-    }
+    socket.onmessage = HandleMessageEvent;
 
     function send(type,data){
         let TempObj = {type};
@@ -80,62 +78,78 @@ $(document).ready(function(){
             TempObj[key] = value;
         }
         socket.send(JSON.stringify(TempObj));
+    };
+
+    function addMessage(sender, content) {
+        let container = document.createElement("div");
+        container.classList.add("message");
+
+        let senderElem = document.createElement("p");
+        senderElem.textContent = sender + ": ";
+        senderElem.className = "sender";
+        if(sender == "ME") senderElem.classList.add("me");
+        container.append(senderElem);
+        let contentElem = document.createElement("p");
+        contentElem.textContent = content;
+        contentElem.className = "content";
+        container.append(contentElem);
+
+        ChatArea.append(container);
     }
 
-
-
-    function HandleMessage(msgobj){
+    function HandleMessageEvent(evt){
+        let msgobj = JSON.parse(evt.data);
         let CrudeMessage = msgobj;
-        if(CrudeMessage.type == "user-added"){
-            alert(`${CrudeMessage.name} has joined the room`);
-            
-        }
-        if(CrudeMessage.type == "message"){
-            console.log(CrudeMessage);
-            writeMessage(CrudeMessage.Text);
-        }
-        if(CrudeMessage.type == "acknowledge-connect"){
-            let name = CrudeMessage.name;
-            let group = CrudeMessage.Group;
+        switch (CrudeMessage.type) {
+            case "user-added":
+                alert(`${CrudeMessage.name} has joined the room`);
+                break;
+            case "message":
+                console.log(`Received a message: "${CrudeMessage.Text}" from @${CrudeMessage.name}`);
+                addMessage(CrudeMessage.name, CrudeMessage.Text);
+                break;
+            case "acknowledge-connect":
+                let name = CrudeMessage.name;
+                let group = CrudeMessage.Group;
 
-            alert(`You've joined ${group} as ${name}`);
+                alert(`You've joined ${group} as ${name}`);
 
-            Message_Name = name;
-            Message_Group = group;
+                Message_Name = name;
+                Message_Group = group;
+                break;
+            case "err":
+                alert(CrudeMessage.err);
+                break;
+            case "login-accept":
+                var usr_groups = CrudeMessage.data.groups;
+                Message_Name = CrudeMessage.data.name;
+                send("get_groups",{name:Message_Name});
+                $(".log-in").fadeOut();
+                $("#app").fadeIn();
+                break;
+            case "recomend-sign_up":
+                alert("NO SUCH ACCOUNT FOUND, SIGNUP");
+                $(".log-in").fadeOut();
+                $(".sign-up").fadeIn();
+                break;
+            case "sign-up":
+                let usr_data = CrudeMessage.data
+                Message_Name = usr_data.name;
+                send("get_groups",{name:Message_Name});
+                break;
+            case "active-groups":
+                console.log(CrudeMessage.groups);
+                create_groupButtons(CrudeMessage.groups);
+                break;
+            default:
+                console.log(`Anonymous type message received: ${CrudeMessage.type}`)
         }
-        if(CrudeMessage.type == "err"){
-            alert(CrudeMessage.err);
-        }
-        if(CrudeMessage.type == "login-accept"){
-            var usr_groups = CrudeMessage.data.groups;
-            Message_Name = CrudeMessage.data.name;
-            send("get_groups",{name:Message_Name});
-            $(".log-in").fadeOut();
-            $("#app").fadeIn();
-        }
-        if(CrudeMessage.type == "recomend-sign_up"){
-            alert("NO SUCH ACCOUNT FOUND, SIGNUP");
-            $(".log-in").fadeOut();
-            $(".sign-up").fadeIn();
-        }
-        if(CrudeMessage.type == "sign-up"){
-            let usr_data = CrudeMessage.data
-            Message_Name = usr_data.name;
-            send("get_groups",{name:Message_Name});
-        }
-        if(CrudeMessage.type == "active-groups"){
-            console.log(CrudeMessage.groups);
-            create_groupButtons(CrudeMessage.groups);
-        }
-    }
-
-    function writeMessage(txt){
-        var txt = $(".messages")
-    }
+    };
     
     function create_groupButtons(obj){
         for(let name of obj){
             var btn = document.createElement("button");
+            btn.classList.add("group");
             btn.innerText = String(name);
             btn.addEventListener("click",()=>{
                 setActiveGroup(name);
